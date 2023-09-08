@@ -2,8 +2,8 @@
 /*
 Plugin Name: Fair Labeling
 Description: Add custom text below post thumbnails.
-Version: 1.0
-Author: Your Name
+Version: 1.0.1
+Author: Kasiri
 */
 
 // プラグインの設定メニューを追加
@@ -38,12 +38,12 @@ function fair_labeling_settings_page() {
             
             <label>
                 <input type="checkbox" name="fair_labeling_show_on_posts" value="1" <?php checked(1, $show_on_posts); ?> />
-                Posts
+                Posts（投稿ページ）
             </label><br />
             
             <label>
                 <input type="checkbox" name="fair_labeling_show_on_pages" value="1" <?php checked(1, $show_on_pages); ?> />
-                Pages
+                Pages（固定ページ）
             </label><br />
             
             <?php
@@ -68,6 +68,11 @@ add_action('admin_init', 'fair_labeling_register_settings');
 // 設定項目を表示
 function fair_labeling_settings_field() {
     $custom_text = get_option('fair_labeling_custom_text');
+    // デフォルトのテキスト（初期値）を設定
+    $default_text = '当サイトはアフィリエイト広告を使用しています';
+
+    // カスタムテキストが設定されている場合はそれを使用し、そうでない場合は初期値を使用
+    $custom_text = empty($custom_text) ? $default_text : $custom_text;
     ?>
     <input type="text" name="fair_labeling_custom_text" value="<?php echo esc_attr($custom_text); ?>" />
     <?php
